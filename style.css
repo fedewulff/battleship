@@ -1,0 +1,38 @@
+body {
+  padding-top: 15rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.gamesides {
+  margin: auto;
+  width: fit-content;
+  display: flex;
+  gap: 25rem;
+}
+
+.container {
+  display: flex;
+  margin: auto;
+  width: fit-content;
+}
+
+.targetbox {
+  width: 25px;
+  height: 25px;
+  border: 0.5px solid rgb(235, 235, 235);
+}
+.box {
+  width: 50px;
+  height: 50px;
+  border: 0.5px solid rgb(235, 235, 235);
+}
+
+.selectedBox {
+  border: 2px solid green;
+  background: rgb(151, 230, 151);
+}
