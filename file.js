@@ -45,9 +45,11 @@ let shipLetter = ``;
 
 mySmallShip.addEventListener(`click`, function () {
   shipLetter = `m`;
-  myBoxes.forEach(function (element, index) {
-    smallShipPlacement(element, index);
-  });
+  if (!smallShipSelected) {
+    myBoxes.forEach(function (element, index) {
+      smallShipPlacement(element, index);
+    });
+  }
 });
 myDestroyer.addEventListener(`click`, function () {
   shipLetter = `d`;
@@ -65,31 +67,39 @@ myAircraftCarrier.addEventListener(`click`, function () {
   shipLetter = `a`;
 });
 
-let smallShipPosSelected = false;
+let smallShipSelected = false;
 function smallShipPlacement(element, index) {
-  element.addEventListener(`mouseover`, function () {
-    if (!smallShipPosSelected) {
-      if (index % 10 == 9) {
-        element.style.background = `red`;
+  let index2 = index + 1;
+  if (!smallShipSelected) {
+    element.addEventListener(`mouseover`, function () {
+      if (!smallShipSelected) {
+        if (!myGameboard[index] && myGameboard[index2]) {
+          notAllowedBox(element);
+        }
+        if (index % 10 == 9 && !myGameboard[index]) {
+          notAllowedBox(element);
+        }
+        if (index % 10 < 9 && !myGameboard[index] && !myGameboard[index2]) {
+          notSelectedBox(element, myBoxes[index + 1]);
+        }
       }
-      if (index % 10 < 9) {
-        element.style.background = myBoxes[index + 1].style.background = `green`;
+    });
+    element.addEventListener(`mouseout`, function () {
+      if (!smallShipSelected && !myGameboard[index] && myGameboard[index2]) {
+        abandonedBox(element);
       }
-    }
-  });
-  element.addEventListener(`mouseout`, function () {
-    if (!smallShipPosSelected) {
-      element.style.background = myBoxes[index + 1].style.background = `none`;
-    }
-  });
-  element.addEventListener(`click`, function () {
-    if (index % 10 < 9 && !smallShipPosSelected) {
-      element.style.background = `blue`;
-      myBoxes[index + 1].style.background = `blue`;
-      myGameboard[index] = myGameboard[index + 1] = 1;
-      smallShipPosSelected = true;
-    }
-  });
+      if (!smallShipSelected && !myGameboard[index] && !myGameboard[index2]) {
+        abandonedBox(element, myBoxes[index2]);
+      }
+    });
+    element.addEventListener(`click`, function () {
+      if (index % 10 < 9 && !smallShipSelected && !myGameboard[index] && !myGameboard[index2]) {
+        selectedBox(element, myBoxes[index + 1]);
+        myGameboard[index] = myGameboard[index + 1] = 1;
+        smallShipSelected = true;
+      }
+    });
+  }
 }
 
 let destroyerPosSelected = false;
@@ -97,32 +107,97 @@ function destroyerPlacement(element, index) {
   element.addEventListener(`mouseover`, function () {
     if (!destroyerPosSelected) {
       if (index % 10 == 8) {
-        element.style.background = `red`;
-        myBoxes[index + 1].style.background = `red`;
+        notAllowedBox(element, myBoxes[index + 1]);
       }
       if (index % 10 == 9) {
-        element.style.background = `red`;
+        notAllowedBox(element);
       }
       if (index % 10 < 8) {
-        element.style.background = `green`;
-        myBoxes[index + 1].style.background = `green`;
-        myBoxes[index + 2].style.background = `green`;
+        notSelectedBox(element, myBoxes[index + 1], myBoxes[index + 2]);
       }
     }
   });
   element.addEventListener(`mouseout`, function () {
     if (!destroyerPosSelected) {
-      element.style.background = myBoxes[index + 1].style.background = myBoxes[index + 2].style.background = `none`;
+      abandonedBox(element, myBoxes[index + 1], myBoxes[index + 2]);
     }
   });
   element.addEventListener(`click`, function () {
     if (index % 10 < 8 && !destroyerPosSelected) {
-      element.style.background = `blue`;
-      myBoxes[index + 1].style.background = `blue`;
-      myBoxes[index + 2].style.background = `blue`;
+      selectedBox(element, myBoxes[index + 1], myBoxes[index + 2]);
       myGameboard[index] = myGameboard[index + 1] = myGameboard[index + 2] = 1;
       destroyerPosSelected = true;
-      console.log(myGameboard);
     }
   });
 }
+
+function selectedBox(firstBox, secondBox, thirdBox, fourthBox, fifthBox) {
+  if (firstBox) {
+    firstBox.style.background = `blue`;
+  }
+  if (secondBox) {
+    secondBox.style.background = `blue`;
+  }
+  if (thirdBox) {
+    thirdBox.style.background = `blue`;
+  }
+  if (fourthBox) {
+    fourthBox.style.background = `blue`;
+  }
+  if (fifthBox) {
+    fifthBox.style.background = `blue`;
+  }
+}
+function notSelectedBox(firstBox, secondBox, thirdBox, fourthBox, fifthBox) {
+  if (firstBox) {
+    firstBox.style.background = `green`;
+  }
+  if (secondBox) {
+    secondBox.style.background = `green`;
+  }
+  if (thirdBox) {
+    thirdBox.style.background = `green`;
+  }
+  if (fourthBox) {
+    fourthBox.style.background = `green`;
+  }
+  if (fifthBox) {
+    fifthBox.style.background = `green`;
+  }
+}
+function notAllowedBox(firstBox, secondBox, thirdBox, fourthBox, fifthBox) {
+  if (firstBox) {
+    firstBox.style.background = `red`;
+  }
+  if (secondBox) {
+    secondBox.style.background = `red`;
+  }
+  if (thirdBox) {
+    thirdBox.style.background = `red`;
+  }
+  if (fourthBox) {
+    fourthBox.style.background = `red`;
+  }
+  if (fifthBox) {
+    fifthBox.style.background = `red`;
+  }
+}
+function abandonedBox(firstBox, secondBox, thirdBox, fourthBox, fifthBox) {
+  if (firstBox) {
+    firstBox.style.background = `none`;
+  }
+  if (secondBox) {
+    secondBox.style.background = `none`;
+  }
+  if (thirdBox) {
+    thirdBox.style.background = `none`;
+  }
+  if (fourthBox) {
+    fourthBox.style.background = `none`;
+  }
+  if (fifthBox) {
+    fifthBox.style.background = `none`;
+  }
+}
+
+let numero = 0;

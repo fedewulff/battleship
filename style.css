@@ -44,12 +44,23 @@ body {
   border: 0.5px solid rgb(235, 235, 235);
 }
 
+.notallowedbox {
+  border: 2px solid rgb(236, 35, 20);
+  background: #eb6b62;
+}
+
 .notselectedbox {
-  border: 2px solid rgb(0, 77, 128);
-  background: #97d4e6;
+  border: 2px solid green;
+  background: rgb(151, 230, 151);
 }
 
 .selectedbox {
-  border: 2px solid green;
-  background: rgb(151, 230, 151);
+  border: 2px solid rgb(0, 77, 128);
+  background: #97d4e6;
+  color: black;
+}
+
+.leftbox {
+  border: 2px solid rgb(235, 235, 235);
+  background: white;
 }
