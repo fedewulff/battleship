@@ -6,6 +6,9 @@ const myDestroyer = document.querySelector(`.mydestroyer`);
 const mySubmarine = document.querySelector(`.mysubmarine`);
 const myBattleship = document.querySelector(`.mybattleship`);
 const myAircraftCarrier = document.querySelector(`.myaircraftcarrier`);
+const noroom = document.querySelector(`.noroom`);
+const vertical = document.querySelector(`.vertical`);
+const horizontal = document.querySelector(`.horizontal`);
 
 //prettier-ignore
 const myGameboard = [
@@ -41,48 +44,76 @@ const aircraftCarrierPlayer1 = {
   hits: 0,
 };
 
-let shipLetter = ``;
+let shipPlacement;
 
 let smallShipSelected = false;
 mySmallShip.addEventListener(`click`, function () {
-  shipLetter = `m`;
+  shipPlacement = `ss`;
   smallShipPlacement();
 });
 let destroyerPosSelected = false;
 myDestroyer.addEventListener(`click`, function () {
-  shipLetter = `d`;
+  shipPlacement = `dd`;
   destroyerPlacement();
 });
 let submarinePosSelected = false;
 mySubmarine.addEventListener(`click`, function () {
-  shipLetter = `s`;
+  shipPlacement = `sub`;
   submarinePlacement();
 });
 let battleshipPosSelected = false;
 myBattleship.addEventListener(`click`, function () {
-  shipLetter = `b`;
+  shipPlacement = `bb`;
   battleshipPlacement();
 });
 let aircraftCarrierPosSelected = false;
 myAircraftCarrier.addEventListener(`click`, function () {
-  shipLetter = `a`;
+  shipPlacement = `cv`;
   aircraftCarrierPlacement();
+});
+
+let buttonPressed = `horizontal`;
+
+horizontal.addEventListener(`click`, function () {
+  buttonPressed = `horizontal`;
+});
+vertical.addEventListener(`click`, function () {
+  buttonPressed = `vertical`;
 });
 
 function smallShipPlacement() {
   myBoxes.forEach(function (element, index) {
-    let index2 = index + 1;
+    let index2;
+
     element.addEventListener(`mouseover`, function () {
       if (smallShipSelected) return;
-      if (index % 10 < 9) {
-        notSelectedBox(index, index2);
+      if (buttonPressed === `horizontal`) {
+        index2 = index + 1;
+        mouseOver(9, 89, `ss`, index, index2);
       }
-      if (myGameboard[index] && !myGameboard[index2]) {
-        notAllowedBox(index2);
+      if (buttonPressed === `vertical`) {
+        index2 = index + 10;
+        mouseOver(9, 89, `ss`, index, index2);
       }
-      if (index % 10 == 9 || (!myGameboard[index] && myGameboard[index2])) {
-        notAllowedBox(index);
-      }
+
+      // if (buttonPressed === `horizontal`) {
+      //   index2 = index + 1;
+      //   if (index % 10 < 9 && !myGameboard[index] && !myGameboard[index2] && shipPlacement === `ss`) {
+      //     notSelectedBox(index, index2);
+      //   }
+      //   if (index % 10 > 8 || myGameboard[index] || myGameboard[index2]) {
+      //     notAllowedBox();
+      //   }
+      // }
+      // if (buttonPressed === `vertical`) {
+      //   index2 = index + 10;
+      //   if (index <= 89 && !myGameboard[index] && !myGameboard[index2] && shipPlacement === `ss`) {
+      //     notSelectedBox(index, index2);
+      //   }
+      //   if (index > 89 || myGameboard[index] || myGameboard[index2]) {
+      //     notAllowedBox();
+      //   }
+      // }
     });
 
     element.addEventListener(`mouseout`, function () {
@@ -91,43 +122,144 @@ function smallShipPlacement() {
 
     element.addEventListener(`click`, function () {
       if (smallShipSelected) return;
-      if (index % 10 < 9 && !myGameboard[index] && !myGameboard[index2]) {
+      // index2 = index + 1;
+      // if (buttonPressed === `horizontal`) {
+      //   index2 = index + 1;
+      if (index % 10 < 9 && !myGameboard[index] && !myGameboard[index2] && shipPlacement === `ss` && buttonPressed === `horizontal`) {
         selectedBox(index, index2);
-        myGameboard[index] = myGameboard[index + 1] = 1;
+        myGameboard[index] = myGameboard[index2] = 1;
         smallShipSelected = true;
       }
+      // }
+      // if (buttonPressed === `vertical`) {
+      //   index2 = index + 10;
+      if (index <= 89 && !myGameboard[index] && !myGameboard[index2] && shipPlacement === `ss` && buttonPressed === `vertical`) {
+        selectedBox(index, index2);
+        myGameboard[index] = myGameboard[index2] = 1;
+        smallShipSelected = true;
+      }
+      // }
     });
   });
 }
 
+function mouseOver(horValue, verValue, sP, index, index2, index3, index4, index5) {
+  console.log(horValue);
+  console.log(verValue);
+  console.log(sP);
+  console.log(index);
+  console.log(index2);
+
+  if (buttonPressed === `horizontal`) {
+    if (
+      index % 10 < horValue &&
+      !myGameboard[index] &&
+      !myGameboard[index2] &&
+      !myGameboard[index3] &&
+      !myGameboard[index4] &&
+      !myGameboard[index5] &&
+      shipPlacement === sP
+    ) {
+      notSelectedBox(index, index2, index3, index4, index5);
+    }
+    if (
+      index % 10 >= horValue ||
+      myGameboard[index] ||
+      myGameboard[index2] ||
+      myGameboard[index3] ||
+      myGameboard[index4] ||
+      myGameboard[index5]
+    ) {
+      notAllowedBox();
+    }
+  }
+  if (buttonPressed === `vertical`) {
+    if (
+      index <= verValue &&
+      !myGameboard[index] &&
+      !myGameboard[index2] &&
+      !myGameboard[index3] &&
+      !myGameboard[index4] &&
+      !myGameboard[index5] &&
+      shipPlacement === sP
+    ) {
+      notSelectedBox(index, index2, index3, index4, index5);
+    }
+    if (
+      index > verValue ||
+      myGameboard[index] ||
+      myGameboard[index2] ||
+      myGameboard[index3] ||
+      myGameboard[index4] ||
+      myGameboard[index5]
+    ) {
+      notAllowedBox();
+    }
+  }
+}
+
 function destroyerPlacement() {
   myBoxes.forEach(function (element, index) {
-    let index2 = index + 1;
-    let index3 = index + 2;
+    let index2;
+    let index3;
     element.addEventListener(`mouseover`, function () {
       if (destroyerPosSelected) return;
-      if (index % 10 < 8 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3]) {
-        notSelectedBox(index, index2, index3);
+      if (buttonPressed === `horizontal`) {
+        index2 = index + 1;
+        index3 = index + 2;
+        mouseOver(8, 79, `dd`, index, index2, index3);
       }
-      if (myGameboard[index] && myGameboard[index2] && !myGameboard[index3]) {
-        notAllowedBox(index3);
+      if (buttonPressed === `vertical`) {
+        index2 = index + 10;
+        index3 = index + 20;
+        mouseOver(8, 79, `dd`, index, index2, index3);
       }
-      if (myGameboard[index] && !myGameboard[index2] && !myGameboard[index3]) {
-        notAllowedBox(index2, index3);
-      }
-      if (index % 10 == 8 || myGameboard[index3]) {
-        notAllowedBox(index, index2);
-      }
-      if (index % 10 == 9 || (myGameboard[index2] && myGameboard[index3])) {
-        notAllowedBox(index);
-      }
+      // if (buttonPressed === `horizontal`) {
+      //   index2 = index + 1;
+      //   index3 = index + 2;
+      //   if (index % 10 < 8 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3] && shipPlacement === `dd`) {
+      //     notSelectedBox(index, index2, index3);
+      //   }
+      //   if (index % 10 > 7 || myGameboard[index] || myGameboard[index2] || myGameboard[index3]) {
+      //     notAllowedBox();
+      //   }
+      // }
+      // if (buttonPressed === `vertical`) {
+      //   index2 = index + 10;
+      //   index3 = index + 20;
+      //   if (index <= 79 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3] && shipPlacement === `dd`) {
+      //     notSelectedBox(index, index2, index3);
+      //   }
+      //   if (index > 79 || myGameboard[index] || myGameboard[index2] || myGameboard[index3]) {
+      //     notAllowedBox();
+      //   }
+      // }
     });
     element.addEventListener(`mouseout`, function () {
       abandonedBox(index, index2, index3);
     });
     element.addEventListener(`click`, function () {
       if (destroyerPosSelected) return;
-      if (index % 10 < 8 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3]) {
+      if (
+        index % 10 < 8 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        shipPlacement === `dd` &&
+        buttonPressed === `horizontal`
+      ) {
+        selectedBox(index, index2, index3);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = 1;
+        destroyerPosSelected = true;
+      }
+      if (
+        index <= 79 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        shipPlacement === `dd` &&
+        buttonPressed === `vertical`
+      ) {
         selectedBox(index, index2, index3);
         myGameboard[index] = myGameboard[index2] = myGameboard[index3] = 1;
         destroyerPosSelected = true;
@@ -137,26 +269,66 @@ function destroyerPlacement() {
 }
 function submarinePlacement() {
   myBoxes.forEach(function (element, index) {
-    let index2 = index + 1;
-    let index3 = index + 2;
+    let index2;
+    let index3;
     element.addEventListener(`mouseover`, function () {
       if (submarinePosSelected) return;
-      if (index % 10 == 8 || myGameboard[index3]) {
-        notAllowedBox(index, index2);
+      if (buttonPressed === `horizontal`) {
+        index2 = index + 1;
+        index3 = index + 2;
+        mouseOver(8, 79, `sub`, index, index2, index3);
       }
-      if (index % 10 == 9 || (myGameboard[index2] && myGameboard[index3])) {
-        notAllowedBox(index);
+      if (buttonPressed === `vertical`) {
+        index2 = index + 10;
+        index3 = index + 20;
+        mouseOver(8, 79, `sub`, index, index2, index3);
       }
-      if (index % 10 < 8 && !myGameboard[index2] && !myGameboard[index3]) {
-        notSelectedBox(index, index2, index3);
-      }
+      // if (buttonPressed === `horizontal`) {
+      //   index2 = index + 1;
+      //   index3 = index + 2;
+      //   if (index % 10 < 8 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3] && shipPlacement === `sub`) {
+      //     notSelectedBox(index, index2, index3);
+      //   }
+      //   if (index % 10 > 7 || myGameboard[index] || myGameboard[index2] || myGameboard[index3]) {
+      //     notAllowedBox();
+      //   }
+      // }
+      // if (buttonPressed === `vertical`) {
+      //   index2 = index + 10;
+      //   index3 = index + 20;
+      //   if (index <= 79 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3] && shipPlacement === `sub`) {
+      //     notSelectedBox(index, index2, index3);
+      //   }
+      //   if (index > 79 || myGameboard[index] || myGameboard[index2] || myGameboard[index3]) {
+      //     notAllowedBox();
+      //   }
+      // }
     });
     element.addEventListener(`mouseout`, function () {
       abandonedBox(index, index2, index3);
     });
     element.addEventListener(`click`, function () {
       if (submarinePosSelected) return;
-      if (index % 10 < 8 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3]) {
+      if (
+        index % 10 < 8 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        shipPlacement === `sub` &&
+        buttonPressed === `horizontal`
+      ) {
+        selectedBox(index, index2, index3);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = 1;
+        submarinePosSelected = true;
+      }
+      if (
+        index <= 79 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        shipPlacement === `sub` &&
+        buttonPressed === `vertical`
+      ) {
         selectedBox(index, index2, index3);
         myGameboard[index] = myGameboard[index2] = myGameboard[index3] = 1;
         submarinePosSelected = true;
@@ -164,25 +336,48 @@ function submarinePlacement() {
     });
   });
 }
-
 function battleshipPlacement() {
   myBoxes.forEach(function (element, index) {
-    let index2 = index + 1;
-    let index3 = index + 2;
-    let index4 = index + 3;
+    let index2;
+    let index3;
+    let index4;
     element.addEventListener(`mouseover`, function () {
       if (battleshipPosSelected) return;
-      if (index % 10 == 7 || myGameboard[index4]) {
-        notAllowedBox(index, index2, index3);
+      if (buttonPressed === `horizontal`) {
+        index2 = index + 1;
+        index3 = index + 2;
+        index4 = index + 3;
+        if (
+          index % 10 < 7 &&
+          !myGameboard[index] &&
+          !myGameboard[index2] &&
+          !myGameboard[index3] &&
+          !myGameboard[index4] &&
+          shipPlacement === `bb`
+        ) {
+          notSelectedBox(index, index2, index3, index4);
+        }
+        if (index % 10 > 6 || myGameboard[index] || myGameboard[index2] || myGameboard[index3] || myGameboard[index4]) {
+          notAllowedBox();
+        }
       }
-      if (index % 10 == 8 || (myGameboard[index3] && myGameboard[index4])) {
-        notAllowedBox(index, index2);
-      }
-      if (index % 10 == 9 || (myGameboard[index2] && myGameboard[index3] && myGameboard[index4])) {
-        notAllowedBox(index);
-      }
-      if (index % 10 < 7 && !myGameboard[index2] && !myGameboard[index3] && !myGameboard[index4]) {
-        notSelectedBox(index, index2, index3, index4);
+      if (buttonPressed === `vertical`) {
+        index2 = index + 10;
+        index3 = index + 20;
+        index4 = index + 30;
+        if (
+          index <= 69 &&
+          !myGameboard[index] &&
+          !myGameboard[index2] &&
+          !myGameboard[index3] &&
+          !myGameboard[index4] &&
+          shipPlacement === `bb`
+        ) {
+          notSelectedBox(index, index2, index3, index4);
+        }
+        if (index > 69 || myGameboard[index] || myGameboard[index2] || myGameboard[index3] || myGameboard[index4]) {
+          notAllowedBox();
+        }
       }
     });
     element.addEventListener(`mouseout`, function () {
@@ -190,7 +385,28 @@ function battleshipPlacement() {
     });
     element.addEventListener(`click`, function () {
       if (battleshipPosSelected) return;
-      if (index % 10 < 7 && !myGameboard[index] && !myGameboard[index2] && !myGameboard[index3] && !myGameboard[index4]) {
+      if (
+        index % 10 < 7 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        !myGameboard[index4] &&
+        shipPlacement === `bb` &&
+        buttonPressed === `horizontal`
+      ) {
+        selectedBox(index, index2, index3, index4);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = 1;
+        battleshipPosSelected = true;
+      }
+      if (
+        index <= 69 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        !myGameboard[index4] &&
+        shipPlacement === `bb` &&
+        buttonPressed === `vertical`
+      ) {
         selectedBox(index, index2, index3, index4);
         myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = 1;
         battleshipPosSelected = true;
@@ -198,29 +414,60 @@ function battleshipPlacement() {
     });
   });
 }
-
 function aircraftCarrierPlacement() {
   myBoxes.forEach(function (element, index) {
-    let index2 = index + 1;
-    let index3 = index + 2;
-    let index4 = index + 3;
-    let index5 = index + 4;
+    let index2;
+    let index3;
+    let index4;
+    let index5;
     element.addEventListener(`mouseover`, function () {
       if (aircraftCarrierPosSelected) return;
-      if (index % 10 == 6 || myGameboard[index5]) {
-        notAllowedBox(index, index2, index3, index4);
+      if (buttonPressed === `horizontal`) {
+        index2 = index + 1;
+        index3 = index + 2;
+        index4 = index + 3;
+        index5 = index + 4;
+        if (
+          index % 10 < 6 &&
+          !myGameboard[index] &&
+          !myGameboard[index2] &&
+          !myGameboard[index3] &&
+          !myGameboard[index4] &&
+          !myGameboard[index5] &&
+          shipPlacement === `cv`
+        ) {
+          notSelectedBox(index, index2, index3, index4, index5);
+        }
+        if (
+          index % 10 > 5 ||
+          myGameboard[index] ||
+          myGameboard[index2] ||
+          myGameboard[index3] ||
+          myGameboard[index4] ||
+          myGameboard[index5]
+        ) {
+          notAllowedBox();
+        }
       }
-      if (index % 10 == 7 || (myGameboard[index4] && myGameboard[index5])) {
-        notAllowedBox(index, index2, index3);
-      }
-      if (index % 10 == 8 || (myGameboard[index3] && myGameboard[index4] && myGameboard[index5])) {
-        notAllowedBox(index, index2);
-      }
-      if (index % 10 == 9 || (myGameboard[index2] && myGameboard[index3] && myGameboard[index4] && myGameboard[index5])) {
-        notAllowedBox(index);
-      }
-      if (index % 10 < 6 && !myGameboard[index2] && !myGameboard[index3] && !myGameboard[index4] && !myGameboard[index5]) {
-        notSelectedBox(index, index2, index3, index4, index5);
+      if (buttonPressed === `vertical`) {
+        index2 = index + 10;
+        index3 = index + 20;
+        index4 = index + 30;
+        index5 = index + 40;
+        if (
+          index <= 59 &&
+          !myGameboard[index] &&
+          !myGameboard[index2] &&
+          !myGameboard[index3] &&
+          !myGameboard[index4] &&
+          !myGameboard[index5] &&
+          shipPlacement === `cv`
+        ) {
+          notSelectedBox(index, index2, index3, index4, index5);
+        }
+        if (index > 59 || myGameboard[index] || myGameboard[index2] || myGameboard[index3] || myGameboard[index4] || myGameboard[index5]) {
+          notAllowedBox();
+        }
       }
     });
     element.addEventListener(`mouseout`, function () {
@@ -234,7 +481,23 @@ function aircraftCarrierPlacement() {
         !myGameboard[index2] &&
         !myGameboard[index3] &&
         !myGameboard[index4] &&
-        !myGameboard[index5]
+        !myGameboard[index5] &&
+        shipPlacement === `cv` &&
+        buttonPressed === `horizontal`
+      ) {
+        selectedBox(index, index2, index3, index4, index5);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = 1;
+        aircraftCarrierPosSelected = true;
+      }
+      if (
+        index < 59 &&
+        !myGameboard[index] &&
+        !myGameboard[index2] &&
+        !myGameboard[index3] &&
+        !myGameboard[index4] &&
+        !myGameboard[index5] &&
+        shipPlacement === `cv` &&
+        buttonPressed === `vertical`
       ) {
         selectedBox(index, index2, index3, index4, index5);
         myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = 1;
@@ -245,6 +508,8 @@ function aircraftCarrierPlacement() {
 }
 
 function selectedBox(index, index2, index3, index4, index5) {
+  console.log(index);
+  console.log(index2);
   if (!myGameboard[index]) {
     myBoxes[index].style.background = `blue`;
   }
@@ -279,23 +544,10 @@ function notSelectedBox(index, index2, index3, index4, index5) {
   }
 }
 function notAllowedBox(index, index2, index3, index4, index5) {
-  if (!myGameboard[index]) {
-    myBoxes[index].style.background = `red`;
-  }
-  if (!myGameboard[index2] && index2) {
-    myBoxes[index2].style.background = `red`;
-  }
-  if (!myGameboard[index3] && index3) {
-    myBoxes[index3].style.background = `red`;
-  }
-  if (!myGameboard[index4] && index4) {
-    myBoxes[index4].style.background = `red`;
-  }
-  if (!myGameboard[index5] && index5) {
-    myBoxes[index5].style.background = `red`;
-  }
+  noroom.style.opacity = "1";
 }
 function abandonedBox(index, index2, index3, index4, index5) {
+  noroom.style.opacity = "0";
   if (!myGameboard[index]) {
     myBoxes[index].style.background = `none`;
   }
@@ -312,5 +564,3 @@ function abandonedBox(index, index2, index3, index4, index5) {
     myBoxes[index5].style.background = `none`;
   }
 }
-
-let numero = 0;
