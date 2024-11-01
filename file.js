@@ -405,7 +405,29 @@ const pcGameboard = [
   0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0]
 
-function pcTurn() {}
+function pcTurn() {
+  function smallShip() {
+    let randomNumber = Math.floor(Math.random() * 2);
+    let smallShipIndex = Math.floor(Math.random() * 100);
+    let index2;
+    if (randomNumber === 0 && smallShipIndex % 10 < 9) {
+      index2 = smallShipIndex + 1;
+      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+    }
+    if (randomNumber === 1 && smallShipIndex <= 89) {
+      index2 = smallShipIndex + 10;
+      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+    }
+    function checkValue(element) {
+      return element == `pcss`;
+    }
+    if (!pcGameboard.some(checkValue)) {
+      smallShip();
+    }
+  }
+  smallShip();
+  console.log(pcGameboard);
+}
 pcTurn();
 
 function pcSmallShip() {
@@ -434,52 +456,53 @@ function pcSmallShip() {
   }
   return;
 }
-pcSmallShip();
+// pcSmallShip();
 
-// if (buttonPressed === `horizontal`) {
-//   index2 = index + 1;
-//   index3 = index + 2;
-//   index4 = index + 3;
-//   index5 = index + 4;
-//   if (
-//     index % 10 < 6 &&
-//     !myGameboard[index] &&
-//     !myGameboard[index2] &&
-//     !myGameboard[index3] &&
-//     !myGameboard[index4] &&
-//     !myGameboard[index5] &&
-//     shipPlacement === `cv`
-//   ) {
-//     notSelectedBox(index, index2, index3, index4, index5);
-//   }
-//   if (
-//     index % 10 > 5 ||
-//     myGameboard[index] ||
-//     myGameboard[index2] ||
-//     myGameboard[index3] ||
-//     myGameboard[index4] ||
-//     myGameboard[index5]
-//   ) {
-//     notAllowedBox();
-//   }
-// }
-// if (buttonPressed === `vertical`) {
-//   index2 = index + 10;
-//   index3 = index + 20;
-//   index4 = index + 30;
-//   index5 = index + 40;
-//   if (
-//     index <= 59 &&
-//     !myGameboard[index] &&
-//     !myGameboard[index2] &&
-//     !myGameboard[index3] &&
-//     !myGameboard[index4] &&
-//     !myGameboard[index5] &&
-//     shipPlacement === `cv`
-//   ) {
-//     notSelectedBox(index, index2, index3, index4, index5);
-//   }
-//   if (index > 59 || myGameboard[index] || myGameboard[index2] || myGameboard[index3] || myGameboard[index4] || myGameboard[index5]) {
-//     notAllowedBox();
-//   }
-// }
+function pcShipPlacement(value1, value2, index3) {
+  let randomNumber = Math.floor(Math.random() * 2);
+  let smallShipIndex = Math.floor(Math.random() * 100);
+
+  if (randomNumber === 0 && smallShipIndex % 10 < value1 && !pcGameboard[smallShipIndex]) {
+    let index2 = smallShipIndex + 1;
+    if (!pcGameboard[index2] && !pcGameboard[index3]) {
+      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+      // pcGameboard[smallShipIndex] = `pcss`;
+      // pcGameboard[index2] = `pcss`;
+    }
+  }
+  if (randomNumber === 1 && smallShipIndex <= value2 && !pcGameboard[smallShipIndex]) {
+    let index2 = smallShipIndex + 10;
+    if (!pcGameboard[index2] && !pcGameboard[index3]) {
+      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+      // pcGameboard[smallShipIndex] = `pcss`;
+      // pcGameboard[index2] = `pcss`;
+    }
+  }
+  console.log(pcGameboard);
+  console.log(randomNumber);
+  console.log(smallShipIndex);
+  function checkValue(element) {
+    return element == `pcss`;
+  }
+  if (!pcGameboard.some(checkValue)) {
+    pcShipPlacement(value1, value2);
+  }
+
+  return;
+}
+// pcShipPlacement(9, 89);
+
+function pcGameboardAddValue(pcShipCode, index, index2, index3, index4, index5) {
+  if (!pcGameboard[index && !pcGameboard[index2] && !pcGameboard[index3] && !pcGameboard[index4] && !pcGameboard[index5]]) {
+    pcGameboard[index] = pcGameboard[index2] = pcShipCode;
+    if (index3) {
+      pcGameboard[index3] = pcShipCode;
+    }
+    if (index4) {
+      pcGameboard[index4] = pcShipCode;
+    }
+    if (index5) {
+      pcGameboard[index5] = pcShipCode;
+    }
+  }
+}
