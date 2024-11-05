@@ -9,6 +9,7 @@ const myAircraftCarrier = document.querySelector(`.myaircraftcarrier`);
 const noroom = document.querySelector(`.noroom`);
 const vertical = document.querySelector(`.vertical`);
 const horizontal = document.querySelector(`.horizontal`);
+const pcBoxes = document.querySelectorAll(`.computerbox`);
 
 //prettier-ignore
 const myGameboard = [
@@ -23,23 +24,23 @@ const myGameboard = [
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0]
 
-const smallShipPlayer1 = {
+const playerSmallShip = {
   length: 2,
   hits: 0,
 };
-const destroyerPlayer1 = {
+const playerDestroyer = {
   length: 3,
   hits: 0,
 };
-const submarinePlayer1 = {
+const playerSubmarine = {
   length: 3,
   hits: 0,
 };
-const battleshipPlayer1 = {
+const playerBattleship = {
   length: 4,
   hits: 0,
 };
-const aircraftCarrierPlayer1 = {
+const playerAircraftCarrier = {
   length: 5,
   hits: 0,
 };
@@ -225,6 +226,7 @@ function aircraftCarrierPlacement() {
       click(6, 59, `cv`, index, index2, index3, index4, index5);
       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = `cv`;
       aircraftCarrierPosSelected = true;
+      console.log(myGameboard);
       // if (
       //   index % 10 <= 6 &&
       //   !myGameboard[index] &&
@@ -405,104 +407,236 @@ const pcGameboard = [
   0,0,0,0,0,0,0,0,0,0,
   0,0,0,0,0,0,0,0,0,0]
 
-function pcTurn() {
-  function smallShip() {
+const pcSmallShip = {
+  length: 2,
+  hits: 0,
+};
+const pcDestroyer = {
+  length: 3,
+  hits: 0,
+};
+const pcSubmarine = {
+  length: 3,
+  hits: 0,
+};
+const pcBattleship = {
+  length: 4,
+  hits: 0,
+};
+const pcAircraftCarrier = {
+  length: 5,
+  hits: 0,
+};
+
+function pcShipPlacement() {
+  function pcSmallShip() {
     let randomNumber = Math.floor(Math.random() * 2);
-    let smallShipIndex = Math.floor(Math.random() * 100);
+    let pcRandomIndex = Math.floor(Math.random() * 100);
     let index2;
-    if (randomNumber === 0 && smallShipIndex % 10 < 9) {
-      index2 = smallShipIndex + 1;
-      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+    if (randomNumber === 0 && pcRandomIndex % 10 < 9) {
+      index2 = pcRandomIndex + 1;
+      pcGameboardAddValue(`pcss`, pcRandomIndex, index2);
     }
-    if (randomNumber === 1 && smallShipIndex <= 89) {
-      index2 = smallShipIndex + 10;
-      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
+    if (randomNumber === 1 && pcRandomIndex <= 89) {
+      index2 = pcRandomIndex + 10;
+      pcGameboardAddValue(`pcss`, pcRandomIndex, index2);
     }
     function checkValue(element) {
       return element == `pcss`;
     }
     if (!pcGameboard.some(checkValue)) {
-      smallShip();
+      pcSmallShip();
     }
   }
-  smallShip();
-  console.log(pcGameboard);
-}
-pcTurn();
-
-function pcSmallShip() {
-  let randomNumber = Math.floor(Math.random() * 2);
-  let smallShipIndex = Math.floor(Math.random() * 100);
-  if (randomNumber === 0 && smallShipIndex % 10 !== 9 && !pcGameboard[smallShipIndex]) {
-    let index2 = smallShipIndex + 1;
-    if (!pcGameboard[index2]) {
-      pcGameboard[smallShipIndex] = `pcss`;
-      pcGameboard[index2] = `pcss`;
-    } else pcSmallShip();
-  }
-  if (randomNumber === 1 && smallShipIndex <= 89 && !pcGameboard[smallShipIndex]) {
-    let index2 = smallShipIndex + 10;
-    if (!pcGameboard[index2]) {
-      pcGameboard[smallShipIndex] = `pcss`;
-      pcGameboard[index2] = `pcss`;
-    } else pcSmallShip();
-  }
-  console.log(pcGameboard);
-  function checkValue(element) {
-    return element == `pcss`;
-  }
-  if (!pcGameboard.some(checkValue)) {
-    pcSmallShip();
-  }
-  return;
-}
-// pcSmallShip();
-
-function pcShipPlacement(value1, value2, index3) {
-  let randomNumber = Math.floor(Math.random() * 2);
-  let smallShipIndex = Math.floor(Math.random() * 100);
-
-  if (randomNumber === 0 && smallShipIndex % 10 < value1 && !pcGameboard[smallShipIndex]) {
-    let index2 = smallShipIndex + 1;
-    if (!pcGameboard[index2] && !pcGameboard[index3]) {
-      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
-      // pcGameboard[smallShipIndex] = `pcss`;
-      // pcGameboard[index2] = `pcss`;
+  function pcDestroyer() {
+    let randomNumber = Math.floor(Math.random() * 2);
+    let pcRandomIndex = Math.floor(Math.random() * 100);
+    let index2;
+    let index3;
+    if (randomNumber === 0 && pcRandomIndex % 10 < 8) {
+      index2 = pcRandomIndex + 1;
+      index3 = pcRandomIndex + 2;
+      pcGameboardAddValue(`pcdd`, pcRandomIndex, index2, index3);
+    }
+    if (randomNumber === 1 && pcRandomIndex <= 79) {
+      index2 = pcRandomIndex + 10;
+      index3 = pcRandomIndex + 20;
+      pcGameboardAddValue(`pcdd`, pcRandomIndex, index2, index3);
+    }
+    function checkValue(element) {
+      return element == `pcdd`;
+    }
+    if (!pcGameboard.some(checkValue)) {
+      pcDestroyer();
     }
   }
-  if (randomNumber === 1 && smallShipIndex <= value2 && !pcGameboard[smallShipIndex]) {
-    let index2 = smallShipIndex + 10;
-    if (!pcGameboard[index2] && !pcGameboard[index3]) {
-      pcGameboardAddValue(`pcss`, smallShipIndex, index2);
-      // pcGameboard[smallShipIndex] = `pcss`;
-      // pcGameboard[index2] = `pcss`;
+  function pcSubmarine() {
+    let randomNumber = Math.floor(Math.random() * 2);
+    let pcRandomIndex = Math.floor(Math.random() * 100);
+    let index2;
+    let index3;
+    if (randomNumber === 0 && pcRandomIndex % 10 < 8) {
+      index2 = pcRandomIndex + 1;
+      index3 = pcRandomIndex + 2;
+      pcGameboardAddValue(`pcsub`, pcRandomIndex, index2, index3);
+    }
+    if (randomNumber === 1 && pcRandomIndex <= 79) {
+      index2 = pcRandomIndex + 10;
+      index3 = pcRandomIndex + 20;
+      pcGameboardAddValue(`pcsub`, pcRandomIndex, index2, index3);
+    }
+    function checkValue(element) {
+      return element == `pcsub`;
+    }
+    if (!pcGameboard.some(checkValue)) {
+      pcSubmarine();
     }
   }
-  console.log(pcGameboard);
-  console.log(randomNumber);
-  console.log(smallShipIndex);
-  function checkValue(element) {
-    return element == `pcss`;
+  function pcBattleship() {
+    let randomNumber = Math.floor(Math.random() * 2);
+    let pcRandomIndex = Math.floor(Math.random() * 100);
+    let index2;
+    let index3;
+    let index4;
+    if (randomNumber === 0 && pcRandomIndex % 10 < 7) {
+      index2 = pcRandomIndex + 1;
+      index3 = pcRandomIndex + 2;
+      index4 = pcRandomIndex + 3;
+      pcGameboardAddValue(`pcbb`, pcRandomIndex, index2, index3, index4);
+    }
+    if (randomNumber === 1 && pcRandomIndex <= 69) {
+      index2 = pcRandomIndex + 10;
+      index3 = pcRandomIndex + 20;
+      index4 = pcRandomIndex + 30;
+      pcGameboardAddValue(`pcbb`, pcRandomIndex, index2, index3, index4);
+    }
+    function checkValue(element) {
+      return element == `pcbb`;
+    }
+    if (!pcGameboard.some(checkValue)) {
+      pcBattleship();
+    }
   }
-  if (!pcGameboard.some(checkValue)) {
-    pcShipPlacement(value1, value2);
+  function pcAircraftCarrier() {
+    let randomNumber = Math.floor(Math.random() * 2);
+    let pcRandomIndex = Math.floor(Math.random() * 100);
+    let index2;
+    let index3;
+    let index4;
+    let index5;
+    if (randomNumber === 0 && pcRandomIndex % 10 < 6) {
+      index2 = pcRandomIndex + 1;
+      index3 = pcRandomIndex + 2;
+      index4 = pcRandomIndex + 3;
+      index5 = pcRandomIndex + 4;
+      pcGameboardAddValue(`pccv`, pcRandomIndex, index2, index3, index4, index5);
+    }
+    if (randomNumber === 1 && pcRandomIndex <= 59) {
+      index2 = pcRandomIndex + 10;
+      index3 = pcRandomIndex + 20;
+      index4 = pcRandomIndex + 30;
+      index5 = pcRandomIndex + 40;
+      pcGameboardAddValue(`pccv`, pcRandomIndex, index2, index3, index4, index5);
+    }
+    function checkValue(element) {
+      return element == `pccv`;
+    }
+    if (!pcGameboard.some(checkValue)) {
+      pcAircraftCarrier();
+    }
   }
-
-  return;
+  pcSmallShip();
+  pcDestroyer();
+  pcSubmarine();
+  pcBattleship();
+  pcAircraftCarrier();
 }
-// pcShipPlacement(9, 89);
+pcShipPlacement();
 
 function pcGameboardAddValue(pcShipCode, index, index2, index3, index4, index5) {
-  if (!pcGameboard[index && !pcGameboard[index2] && !pcGameboard[index3] && !pcGameboard[index4] && !pcGameboard[index5]]) {
+  if (!pcGameboard[index] && !pcGameboard[index2] && !pcGameboard[index3] && !pcGameboard[index4] && !pcGameboard[index5]) {
+    console.log(`empty`);
+    console.log(index);
+    console.log(index2);
     pcGameboard[index] = pcGameboard[index2] = pcShipCode;
     if (index3) {
+      console.log(index3);
       pcGameboard[index3] = pcShipCode;
     }
     if (index4) {
+      console.log(index4);
       pcGameboard[index4] = pcShipCode;
     }
     if (index5) {
+      console.log(index5);
       pcGameboard[index5] = pcShipCode;
     }
   }
+}
+
+pcBoxes.forEach(function (element, index) {
+  element.addEventListener(`click`, function () {
+    if (pcGameboard[index] === `pcss`) {
+      shipSunkBackground(pcBoxes, pcGameboard, index, pcSmallShip, `.pcsmallship`);
+    }
+    if (pcGameboard[index] === `pcdd`) {
+      shipSunkBackground(pcBoxes, pcGameboard, index, pcDestroyer, `.pcdestroyer`);
+    }
+    if (pcGameboard[index] === `pcsub`) {
+      shipSunkBackground(pcBoxes, pcGameboard, index, pcSubmarine, `.pcsubmarine`);
+    }
+    if (pcGameboard[index] === `pcbb`) {
+      shipSunkBackground(pcBoxes, pcGameboard, index, pcBattleship, `.pcbattleship`);
+    }
+    if (pcGameboard[index] === `pccv`) {
+      shipSunkBackground(pcBoxes, pcGameboard, index, pcAircraftCarrier, `.pcaircraftcarrier`);
+    }
+    if (!pcGameboard[index]) {
+      pcBoxes[index].textContent = `O`;
+    }
+    pcTurn();
+  });
+});
+
+function shipSunkBackground(boxes, gameboard, index, ship, shipClass) {
+  boxes[index].textContent = `X`;
+  boxes[index].style.background = `red`;
+  gameboard[index] = 1;
+  ship.length--;
+  if (ship.length === 0) {
+    document.querySelector(shipClass).style.background = `red`;
+  }
+  console.log(gameboard);
+  return;
+}
+
+let pcChoices = [];
+function pcTurn() {
+  let pcShipChoiceIndex = Math.floor(Math.random() * 100);
+
+  if (myGameboard[pcShipChoiceIndex] === `ss`) {
+    shipSunkBackground(myBoxes, myGameboard, pcShipChoiceIndex, playerSmallShip, `.mysmallship`);
+  }
+  if (myGameboard[pcShipChoiceIndex] === `dd`) {
+    shipSunkBackground(myBoxes, myGameboard, pcShipChoiceIndex, playerDestroyer, `.mydestroyer`);
+  }
+  if (myGameboard[pcShipChoiceIndex] === `sub`) {
+    shipSunkBackground(myBoxes, myGameboard, pcShipChoiceIndex, playerSubmarine, `.mysubmarine`);
+  }
+  if (myGameboard[pcShipChoiceIndex] === `bb`) {
+    shipSunkBackground(myBoxes, myGameboard, pcShipChoiceIndex, playerBattleship, `.mybattleship`);
+  }
+  if (myGameboard[pcShipChoiceIndex] === `cv`) {
+    shipSunkBackground(myBoxes, myGameboard, pcShipChoiceIndex, playerAircraftCarrier, `.myaircraftcarrier`);
+  }
+  if (!myGameboard[pcShipChoiceIndex]) {
+    myBoxes[pcShipChoiceIndex].textContent = `O`;
+  }
+
+  if (pcChoices.includes(pcShipChoiceIndex)) {
+    pcTurn();
+    console.log(`RECURSION`);
+  }
+  pcChoices.push(pcShipChoiceIndex);
+  console.log(pcChoices);
 }
