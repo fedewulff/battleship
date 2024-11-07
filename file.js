@@ -56,31 +56,36 @@ let smallShipSelected = false;
 mySmallShip.addEventListener(`click`, function () {
   shipPlacement = `ss`;
   myShipClicked(mySmallShip);
-  smallShipPlacement();
+  // smallShipPlacement();
+  myShipPlacement();
 });
 let destroyerPosSelected = false;
 myDestroyer.addEventListener(`click`, function () {
   shipPlacement = `dd`;
   myShipClicked(myDestroyer);
-  destroyerPlacement();
+  // destroyerPlacement();
+  myShipPlacement();
 });
 let submarinePosSelected = false;
 mySubmarine.addEventListener(`click`, function () {
   shipPlacement = `sub`;
   myShipClicked(mySubmarine);
-  submarinePlacement();
+  // submarinePlacement();
+  myShipPlacement();
 });
 let battleshipPosSelected = false;
 myBattleship.addEventListener(`click`, function () {
   shipPlacement = `bb`;
   myShipClicked(myBattleship);
-  battleshipPlacement();
+  // battleshipPlacement();
+  myShipPlacement();
 });
 let aircraftCarrierPosSelected = false;
 myAircraftCarrier.addEventListener(`click`, function () {
   shipPlacement = `cv`;
   myShipClicked(myAircraftCarrier);
-  aircraftCarrierPlacement();
+  // aircraftCarrierPlacement();
+  myShipPlacement();
 });
 
 function myShipClicked(ship) {
@@ -112,172 +117,333 @@ vertical.addEventListener(`click`, function () {
 
 let shipsPlaced = 0;
 
-function smallShipPlacement() {
-  myBoxes.forEach(function (element, index) {
-    let index2;
-    element.addEventListener(`mouseover`, function () {
-      if (smallShipSelected) return;
-      if (buttonPressed === `horizontal`) {
-        index2 = index + 1;
-        mouseOver(9, 89, `ss`, index, index2);
-      }
-      if (buttonPressed === `vertical`) {
-        index2 = index + 10;
-        mouseOver(9, 89, `ss`, index, index2);
-      }
-    });
-    element.addEventListener(`mouseout`, function () {
-      abandonedBox(index, index2);
-    });
-    element.addEventListener(`click`, function () {
-      if (smallShipSelected || noroom.style.opacity === `1`) return;
-      shipsPlaced++;
-      click(9, 89, `ss`, index, index2);
-      myGameboard[index] = myGameboard[index2] = `ss`;
-      smallShipSelected = true;
-      if (shipPlacement === `ss`) {
-        green(mySmallShip);
-      }
-    });
-  });
-}
-function destroyerPlacement() {
-  myBoxes.forEach(function (element, index) {
-    let index2;
-    let index3;
-    element.addEventListener(`mouseover`, function () {
-      if (destroyerPosSelected) return;
-      if (buttonPressed === `horizontal`) {
-        index2 = index + 1;
-        index3 = index + 2;
-        mouseOver(8, 79, `dd`, index, index2, index3);
-      }
-      if (buttonPressed === `vertical`) {
-        index2 = index + 10;
-        index3 = index + 20;
-        mouseOver(8, 79, `dd`, index, index2, index3);
-      }
-    });
-    element.addEventListener(`mouseout`, function () {
-      abandonedBox(index, index2, index3);
-    });
-    element.addEventListener(`click`, function () {
-      if (destroyerPosSelected || noroom.style.opacity === `1`) return;
-      shipsPlaced++;
-      click(8, 79, `dd`, index, index2, index3);
-      myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `dd`;
-      destroyerPosSelected = true;
-      if (shipPlacement === `dd`) {
-        green(myDestroyer);
-      }
-    });
-  });
-}
-function submarinePlacement() {
-  myBoxes.forEach(function (element, index) {
-    let index2;
-    let index3;
-    element.addEventListener(`mouseover`, function () {
-      if (submarinePosSelected) return;
-      if (buttonPressed === `horizontal`) {
-        index2 = index + 1;
-        index3 = index + 2;
-        mouseOver(8, 79, `sub`, index, index2, index3);
-      }
-      if (buttonPressed === `vertical`) {
-        index2 = index + 10;
-        index3 = index + 20;
-        mouseOver(8, 79, `sub`, index, index2, index3);
-      }
-    });
-    element.addEventListener(`mouseout`, function () {
-      abandonedBox(index, index2, index3);
-    });
-    element.addEventListener(`click`, function () {
-      if (submarinePosSelected || noroom.style.opacity === `1`) return;
-      shipsPlaced++;
-      click(8, 79, `sub`, index, index2, index3);
-      myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `sub`;
-      submarinePosSelected = true;
-      if (shipPlacement === `sub`) {
-        green(mySubmarine);
-      }
-    });
-  });
-}
-function battleshipPlacement() {
-  myBoxes.forEach(function (element, index) {
-    let index2;
-    let index3;
-    let index4;
-    element.addEventListener(`mouseover`, function () {
-      if (battleshipPosSelected) return;
-      if (buttonPressed === `horizontal`) {
-        index2 = index + 1;
-        index3 = index + 2;
-        index4 = index + 3;
-        mouseOver(7, 69, `bb`, index, index2, index3, index4);
-      }
-      if (buttonPressed === `vertical`) {
-        index2 = index + 10;
-        index3 = index + 20;
-        index4 = index + 30;
-        mouseOver(7, 69, `bb`, index, index2, index3, index4);
-      }
-    });
-    element.addEventListener(`mouseout`, function () {
-      abandonedBox(index, index2, index3, index4);
-    });
-    element.addEventListener(`click`, function () {
-      if (battleshipPosSelected || noroom.style.opacity === `1`) return;
-      shipsPlaced++;
-      click(7, 69, `bb`, index, index2, index3, index4);
-      myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = `bb`;
-      battleshipPosSelected = true;
-      if (shipPlacement === `bb`) {
-        green(myBattleship);
-      }
-    });
-  });
-}
-function aircraftCarrierPlacement() {
+function myShipPlacement() {
+  console.log(shipPlacement);
   myBoxes.forEach(function (element, index) {
     let index2;
     let index3;
     let index4;
     let index5;
     element.addEventListener(`mouseover`, function () {
-      if (aircraftCarrierPosSelected) return;
-      if (buttonPressed === `horizontal`) {
-        index2 = index + 1;
-        index3 = index + 2;
-        index4 = index + 3;
-        index5 = index + 4;
-        mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+      if (shipPlacement === `ss`) {
+        if (smallShipSelected) return;
+        if (buttonPressed === `horizontal`) {
+          index2 = index + 1;
+          mouseOver(9, 89, `ss`, index, index2);
+        }
+        if (buttonPressed === `vertical`) {
+          index2 = index + 10;
+          mouseOver(9, 89, `ss`, index, index2);
+        }
       }
-      if (buttonPressed === `vertical`) {
-        index2 = index + 10;
-        index3 = index + 20;
-        index4 = index + 30;
-        index5 = index + 40;
-        mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+      if (shipPlacement === `dd`) {
+        if (destroyerPosSelected) return;
+        if (buttonPressed === `horizontal`) {
+          index2 = index + 1;
+          index3 = index + 2;
+          mouseOver(8, 79, `dd`, index, index2, index3);
+        }
+        if (buttonPressed === `vertical`) {
+          index2 = index + 10;
+          index3 = index + 20;
+          mouseOver(8, 79, `dd`, index, index2, index3);
+        }
+      }
+      if (shipPlacement === `sub`) {
+        if (submarinePosSelected) return;
+        if (buttonPressed === `horizontal`) {
+          index2 = index + 1;
+          index3 = index + 2;
+          mouseOver(8, 79, `sub`, index, index2, index3);
+        }
+        if (buttonPressed === `vertical`) {
+          index2 = index + 10;
+          index3 = index + 20;
+          mouseOver(8, 79, `sub`, index, index2, index3);
+        }
+      }
+      if (shipPlacement === `bb`) {
+        if (battleshipPosSelected) return;
+        if (buttonPressed === `horizontal`) {
+          index2 = index + 1;
+          index3 = index + 2;
+          index4 = index + 3;
+          mouseOver(7, 69, `bb`, index, index2, index3, index4);
+        }
+        if (buttonPressed === `vertical`) {
+          index2 = index + 10;
+          index3 = index + 20;
+          index4 = index + 30;
+          mouseOver(7, 69, `bb`, index, index2, index3, index4);
+        }
+      }
+      if (shipPlacement === `cv`) {
+        if (aircraftCarrierPosSelected) return;
+        if (buttonPressed === `horizontal`) {
+          index2 = index + 1;
+          index3 = index + 2;
+          index4 = index + 3;
+          index5 = index + 4;
+          mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+        }
+        if (buttonPressed === `vertical`) {
+          index2 = index + 10;
+          index3 = index + 20;
+          index4 = index + 30;
+          index5 = index + 40;
+          mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+        }
       }
     });
     element.addEventListener(`mouseout`, function () {
-      abandonedBox(index, index2, index3, index4, index5);
+      if (shipPlacement === `ss`) {
+        abandonedBox(index, index2);
+      }
+      if (shipPlacement === `dd`) {
+        abandonedBox(index, index2, index3);
+      }
+      if (shipPlacement === `sub`) {
+        abandonedBox(index, index2, index3);
+      }
+      if (shipPlacement === `bb`) {
+        abandonedBox(index, index2, index3, index4);
+      }
+      if (shipPlacement === `cv`) {
+        abandonedBox(index, index2, index3, index4, index5);
+      }
     });
     element.addEventListener(`click`, function () {
-      if (aircraftCarrierPosSelected || noroom.style.opacity === `1`) return;
-      shipsPlaced++;
-      click(6, 59, `cv`, index, index2, index3, index4, index5);
-      myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = `cv`;
-      aircraftCarrierPosSelected = true;
+      if (shipPlacement === `ss`) {
+        if (smallShipSelected || noroom.style.opacity === `1`) return;
+        shipsPlaced++;
+        click(9, 89, `ss`, index, index2);
+        myGameboard[index] = myGameboard[index2] = `ss`;
+        smallShipSelected = true;
+        if (shipPlacement === `ss`) {
+          green(mySmallShip);
+        }
+      }
+      if (shipPlacement === `dd`) {
+        if (destroyerPosSelected || noroom.style.opacity === `1`) return;
+        shipsPlaced++;
+        click(8, 79, `dd`, index, index2, index3);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `dd`;
+        destroyerPosSelected = true;
+        if (shipPlacement === `dd`) {
+          green(myDestroyer);
+        }
+      }
+      if (shipPlacement === `sub`) {
+        if (submarinePosSelected || noroom.style.opacity === `1`) return;
+        shipsPlaced++;
+        click(8, 79, `sub`, index, index2, index3);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `sub`;
+        submarinePosSelected = true;
+        if (shipPlacement === `sub`) {
+          green(mySubmarine);
+        }
+      }
+      if (shipPlacement === `bb`) {
+        if (battleshipPosSelected || noroom.style.opacity === `1`) return;
+        shipsPlaced++;
+        click(7, 69, `bb`, index, index2, index3, index4);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = `bb`;
+        battleshipPosSelected = true;
+        if (shipPlacement === `bb`) {
+          green(myBattleship);
+        }
+      }
       if (shipPlacement === `cv`) {
-        green(myAircraftCarrier);
+        if (aircraftCarrierPosSelected || noroom.style.opacity === `1`) return;
+        shipsPlaced++;
+        click(6, 59, `cv`, index, index2, index3, index4, index5);
+        myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = `cv`;
+        aircraftCarrierPosSelected = true;
+        if (shipPlacement === `cv`) {
+          green(myAircraftCarrier);
+        }
       }
     });
   });
 }
+
+// function smallShipPlacement() {
+//   console.log(shipPlacement);
+//   if (shipPlacement !== `ss`) return;
+//   myBoxes.forEach(function (element, index) {
+//     let index2;
+//     element.addEventListener(`mouseover`, function () {
+//       console.log(`lala`);
+//       if (smallShipSelected) return;
+//       if (buttonPressed === `horizontal`) {
+//         index2 = index + 1;
+//         mouseOver(9, 89, `ss`, index, index2);
+//       }
+//       if (buttonPressed === `vertical`) {
+//         index2 = index + 10;
+//         mouseOver(9, 89, `ss`, index, index2);
+//       }
+//     });
+//     element.addEventListener(`mouseout`, function () {
+//       abandonedBox(index, index2);
+//     });
+//     element.addEventListener(`click`, function () {
+//       if (smallShipSelected || noroom.style.opacity === `1`) return;
+//       shipsPlaced++;
+//       click(9, 89, `ss`, index, index2);
+//       myGameboard[index] = myGameboard[index2] = `ss`;
+//       smallShipSelected = true;
+//       if (shipPlacement === `ss`) {
+//         green(mySmallShip);
+//       }
+//     });
+//   });
+// }
+// function destroyerPlacement() {
+//   console.log(shipPlacement);
+//   if (shipPlacement !== `dd`) return;
+//   myBoxes.forEach(function (element, index) {
+//     let index2;
+//     let index3;
+//     element.addEventListener(`mouseover`, function () {
+//       console.log(`lele`);
+//       if (destroyerPosSelected) return;
+//       if (buttonPressed === `horizontal`) {
+//         index2 = index + 1;
+//         index3 = index + 2;
+//         mouseOver(8, 79, `dd`, index, index2, index3);
+//       }
+//       if (buttonPressed === `vertical`) {
+//         index2 = index + 10;
+//         index3 = index + 20;
+//         mouseOver(8, 79, `dd`, index, index2, index3);
+//       }
+//     });
+//     element.addEventListener(`mouseout`, function () {
+//       abandonedBox(index, index2, index3);
+//     });
+//     element.addEventListener(`click`, function () {
+//       if (destroyerPosSelected || noroom.style.opacity === `1`) return;
+//       shipsPlaced++;
+//       click(8, 79, `dd`, index, index2, index3);
+//       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `dd`;
+//       destroyerPosSelected = true;
+//       if (shipPlacement === `dd`) {
+//         green(myDestroyer);
+//       }
+//     });
+//   });
+// }
+// function submarinePlacement() {
+//   console.log(shipPlacement);
+//   if (shipPlacement !== `sub`) return;
+//   myBoxes.forEach(function (element, index) {
+//     let index2;
+//     let index3;
+//     element.addEventListener(`mouseover`, function () {
+//       console.log(`lili`);
+//       if (submarinePosSelected) return;
+//       if (buttonPressed === `horizontal`) {
+//         index2 = index + 1;
+//         index3 = index + 2;
+//         mouseOver(8, 79, `sub`, index, index2, index3);
+//       }
+//       if (buttonPressed === `vertical`) {
+//         index2 = index + 10;
+//         index3 = index + 20;
+//         mouseOver(8, 79, `sub`, index, index2, index3);
+//       }
+//     });
+//     element.addEventListener(`mouseout`, function () {
+//       abandonedBox(index, index2, index3);
+//     });
+//     element.addEventListener(`click`, function () {
+//       if (submarinePosSelected || noroom.style.opacity === `1`) return;
+//       shipsPlaced++;
+//       click(8, 79, `sub`, index, index2, index3);
+//       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `sub`;
+//       submarinePosSelected = true;
+//       if (shipPlacement === `sub`) {
+//         green(mySubmarine);
+//       }
+//     });
+//   });
+// }
+// function battleshipPlacement() {
+//   myBoxes.forEach(function (element, index) {
+//     let index2;
+//     let index3;
+//     let index4;
+//     element.addEventListener(`mouseover`, function () {
+//       console.log(`lolo`);
+//       if (battleshipPosSelected) return;
+//       if (buttonPressed === `horizontal`) {
+//         index2 = index + 1;
+//         index3 = index + 2;
+//         index4 = index + 3;
+//         mouseOver(7, 69, `bb`, index, index2, index3, index4);
+//       }
+//       if (buttonPressed === `vertical`) {
+//         index2 = index + 10;
+//         index3 = index + 20;
+//         index4 = index + 30;
+//         mouseOver(7, 69, `bb`, index, index2, index3, index4);
+//       }
+//     });
+//     element.addEventListener(`mouseout`, function () {
+//       abandonedBox(index, index2, index3, index4);
+//     });
+//     element.addEventListener(`click`, function () {
+//       if (battleshipPosSelected || noroom.style.opacity === `1`) return;
+//       shipsPlaced++;
+//       click(7, 69, `bb`, index, index2, index3, index4);
+//       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = `bb`;
+//       battleshipPosSelected = true;
+//       if (shipPlacement === `bb`) {
+//         green(myBattleship);
+//       }
+//     });
+//   });
+// }
+// function aircraftCarrierPlacement() {
+//   myBoxes.forEach(function (element, index) {
+//     let index2;
+//     let index3;
+//     let index4;
+//     let index5;
+//     element.addEventListener(`mouseover`, function () {
+//       console.log(`lulu`);
+//       if (aircraftCarrierPosSelected) return;
+//       if (buttonPressed === `horizontal`) {
+//         index2 = index + 1;
+//         index3 = index + 2;
+//         index4 = index + 3;
+//         index5 = index + 4;
+//         mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+//       }
+//       if (buttonPressed === `vertical`) {
+//         index2 = index + 10;
+//         index3 = index + 20;
+//         index4 = index + 30;
+//         index5 = index + 40;
+//         mouseOver(6, 59, `cv`, index, index2, index3, index4, index5);
+//       }
+//     });
+//     element.addEventListener(`mouseout`, function () {
+//       abandonedBox(index, index2, index3, index4, index5);
+//     });
+//     element.addEventListener(`click`, function () {
+//       if (aircraftCarrierPosSelected || noroom.style.opacity === `1`) return;
+//       shipsPlaced++;
+//       click(6, 59, `cv`, index, index2, index3, index4, index5);
+//       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = `cv`;
+//       aircraftCarrierPosSelected = true;
+//       if (shipPlacement === `cv`) {
+//         green(myAircraftCarrier);
+//       }
+//     });
+//   });
+// }
 
 function mouseOver(horValue, verValue, sP, index, index2, index3, index4, index5) {
   if (buttonPressed === `horizontal`) {
@@ -372,9 +538,7 @@ function selectedBox(index, index2, index3, index4, index5) {
     myBoxes[index5].style.background = `blue`;
   }
   console.log(shipsPlaced);
-  if (shipsPlaced === 5) {
-    allShipsScale1();
-  }
+  allShipsScale1();
 }
 
 function notSelectedBox(index, index2, index3, index4, index5) {
@@ -648,7 +812,6 @@ function shipSunkBackground(boxes, gameboard, index, ship, shipClass) {
   if (ship.length === 0) {
     red(shipClass);
   }
-  console.log(gameboard);
   return;
 }
 
