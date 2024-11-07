@@ -55,29 +55,51 @@ let shipPlacement;
 let smallShipSelected = false;
 mySmallShip.addEventListener(`click`, function () {
   shipPlacement = `ss`;
+  myShipClicked(mySmallShip);
   smallShipPlacement();
 });
 let destroyerPosSelected = false;
 myDestroyer.addEventListener(`click`, function () {
-  myDestroyer.style.boxShadow = "10px 20px 30px blue inset";
   shipPlacement = `dd`;
+  myShipClicked(myDestroyer);
   destroyerPlacement();
 });
 let submarinePosSelected = false;
 mySubmarine.addEventListener(`click`, function () {
   shipPlacement = `sub`;
+  myShipClicked(mySubmarine);
   submarinePlacement();
 });
 let battleshipPosSelected = false;
 myBattleship.addEventListener(`click`, function () {
   shipPlacement = `bb`;
+  myShipClicked(myBattleship);
   battleshipPlacement();
 });
 let aircraftCarrierPosSelected = false;
 myAircraftCarrier.addEventListener(`click`, function () {
   shipPlacement = `cv`;
+  myShipClicked(myAircraftCarrier);
   aircraftCarrierPlacement();
 });
+
+function myShipClicked(ship) {
+  mySmallShip.style.transform = `scale(1)`;
+  myDestroyer.style.transform = `scale(1)`;
+  mySubmarine.style.transform = `scale(1)`;
+  myBattleship.style.transform = `scale(1)`;
+  myAircraftCarrier.style.transform = `scale(1)`;
+  if (ship.style.background !== `rgb(80, 200, 120)` && ship.style.background !== `rgb(247, 93, 89)`) {
+    ship.style.transform = "scale(1.05)";
+  }
+}
+function allShipsScale1() {
+  mySmallShip.style.transform = `scale(1)`;
+  myDestroyer.style.transform = `scale(1)`;
+  mySubmarine.style.transform = `scale(1)`;
+  myBattleship.style.transform = `scale(1)`;
+  myAircraftCarrier.style.transform = `scale(1)`;
+}
 
 let buttonPressed = `horizontal`;
 
@@ -109,11 +131,13 @@ function smallShipPlacement() {
     });
     element.addEventListener(`click`, function () {
       if (smallShipSelected || noroom.style.opacity === `1`) return;
+      shipsPlaced++;
       click(9, 89, `ss`, index, index2);
       myGameboard[index] = myGameboard[index2] = `ss`;
       smallShipSelected = true;
-      shipsPlaced++;
-      green(mySmallShip);
+      if (shipPlacement === `ss`) {
+        green(mySmallShip);
+      }
     });
   });
 }
@@ -139,11 +163,13 @@ function destroyerPlacement() {
     });
     element.addEventListener(`click`, function () {
       if (destroyerPosSelected || noroom.style.opacity === `1`) return;
+      shipsPlaced++;
       click(8, 79, `dd`, index, index2, index3);
       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `dd`;
       destroyerPosSelected = true;
-      shipsPlaced++;
-      green(myDestroyer);
+      if (shipPlacement === `dd`) {
+        green(myDestroyer);
+      }
     });
   });
 }
@@ -169,11 +195,13 @@ function submarinePlacement() {
     });
     element.addEventListener(`click`, function () {
       if (submarinePosSelected || noroom.style.opacity === `1`) return;
+      shipsPlaced++;
       click(8, 79, `sub`, index, index2, index3);
       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = `sub`;
       submarinePosSelected = true;
-      shipsPlaced++;
-      green(mySubmarine);
+      if (shipPlacement === `sub`) {
+        green(mySubmarine);
+      }
     });
   });
 }
@@ -202,11 +230,13 @@ function battleshipPlacement() {
     });
     element.addEventListener(`click`, function () {
       if (battleshipPosSelected || noroom.style.opacity === `1`) return;
+      shipsPlaced++;
       click(7, 69, `bb`, index, index2, index3, index4);
       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = `bb`;
       battleshipPosSelected = true;
-      shipsPlaced++;
-      green(myBattleship);
+      if (shipPlacement === `bb`) {
+        green(myBattleship);
+      }
     });
   });
 }
@@ -238,11 +268,13 @@ function aircraftCarrierPlacement() {
     });
     element.addEventListener(`click`, function () {
       if (aircraftCarrierPosSelected || noroom.style.opacity === `1`) return;
+      shipsPlaced++;
       click(6, 59, `cv`, index, index2, index3, index4, index5);
       myGameboard[index] = myGameboard[index2] = myGameboard[index3] = myGameboard[index4] = myGameboard[index5] = `cv`;
       aircraftCarrierPosSelected = true;
-      shipsPlaced++;
-      green(myAircraftCarrier);
+      if (shipPlacement === `cv`) {
+        green(myAircraftCarrier);
+      }
     });
   });
 }
@@ -338,6 +370,10 @@ function selectedBox(index, index2, index3, index4, index5) {
   }
   if (!myGameboard[index5] && index5) {
     myBoxes[index5].style.background = `blue`;
+  }
+  console.log(shipsPlaced);
+  if (shipsPlaced === 5) {
+    allShipsScale1();
   }
 }
 
@@ -580,6 +616,7 @@ function pcGameboardAddValue(pcShipCode, index, index2, index3, index4, index5) 
 
 pcBoxes.forEach(function (element, index) {
   element.addEventListener(`click`, function () {
+    console.log(shipsPlaced);
     if (shipsPlaced != 5) return;
     if (pcGameboard[index] === `pcss`) {
       shipSunkBackground(pcBoxes, pcGameboard, index, pcSmallShip, computerSmallShip);

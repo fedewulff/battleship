@@ -14,7 +14,6 @@ body {
   width: fit-content;
   display: flex;
   gap: 25rem;
-  border: 1px solid red;
 }
 
 .side {
@@ -42,8 +41,11 @@ body {
 .ship {
   border: 3px solid #c0c0c0;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.15rem;
   background: #d8d7d7;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
 }
 
 .box {
@@ -96,4 +98,21 @@ button:focus {
 .ship,
 .button {
   cursor: pointer;
+}
+
+.photo {
+  height: 100%;
+
+  margin-right: auto;
+  border-radius: 0.25rem;
+}
+.destroyer,
+.submarine {
+  width: 7rem;
+}
+.battleship {
+  width: 9rem;
+}
+.aircraftcarrier {
+  width: 10rem;
 }
