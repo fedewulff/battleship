@@ -95,7 +95,7 @@ function myShipClicked(ship) {
   myBattleship.style.transform = `scale(1)`;
   myAircraftCarrier.style.transform = `scale(1)`;
   if (ship.style.background !== `rgb(80, 200, 120)` && ship.style.background !== `rgb(247, 93, 89)`) {
-    ship.style.transform = "scale(1.05)";
+    ship.style.transform = "scale(1.1)";
   }
 }
 function allShipsScale1() {
@@ -523,19 +523,19 @@ function click(horValue, verValue, sP, index, index2, index3, index4, index5) {
 
 function selectedBox(index, index2, index3, index4, index5) {
   if (!myGameboard[index]) {
-    myBoxes[index].style.background = `blue`;
+    myBoxes[index].style.background = `#50C878`;
   }
   if (!myGameboard[index2]) {
-    myBoxes[index2].style.background = `blue`;
+    myBoxes[index2].style.background = `#50C878`;
   }
   if (!myGameboard[index3] && index3) {
-    myBoxes[index3].style.background = `blue`;
+    myBoxes[index3].style.background = `#50C878`;
   }
   if (!myGameboard[index4] && index4) {
-    myBoxes[index4].style.background = `blue`;
+    myBoxes[index4].style.background = `#50C878`;
   }
   if (!myGameboard[index5] && index5) {
-    myBoxes[index5].style.background = `blue`;
+    myBoxes[index5].style.background = `#50C878`;
   }
   console.log(shipsPlaced);
   allShipsScale1();
@@ -543,19 +543,19 @@ function selectedBox(index, index2, index3, index4, index5) {
 
 function notSelectedBox(index, index2, index3, index4, index5) {
   if (!myGameboard[index]) {
-    myBoxes[index].style.background = `green`;
+    myBoxes[index].style.background = `#48CCCD`;
   }
   if (!myGameboard[index2]) {
-    myBoxes[index2].style.background = `green`;
+    myBoxes[index2].style.background = `#48CCCD`;
   }
   if (!myGameboard[index3] && index3) {
-    myBoxes[index3].style.background = `green`;
+    myBoxes[index3].style.background = `#48CCCD`;
   }
   if (!myGameboard[index4] && index4) {
-    myBoxes[index4].style.background = `green`;
+    myBoxes[index4].style.background = `#48CCCD`;
   }
   if (!myGameboard[index5] && index5) {
-    myBoxes[index5].style.background = `green`;
+    myBoxes[index5].style.background = `#48CCCD`;
   }
 }
 
@@ -568,19 +568,19 @@ function abandonedBox(index, index2, index3, index4, index5) {
   noroom.style.opacity = "0";
 
   if (!myGameboard[index]) {
-    myBoxes[index].style.background = `none`;
+    myBoxes[index].style.background = `#d1d0ce`;
   }
   if (!myGameboard[index2] && index2 < 100) {
-    myBoxes[index2].style.background = `none`;
+    myBoxes[index2].style.background = `#d1d0ce`;
   }
   if (!myGameboard[index3] && index3 < 100) {
-    myBoxes[index3].style.background = `none`;
+    myBoxes[index3].style.background = `#d1d0ce`;
   }
   if (!myGameboard[index4] && index4 < 100) {
-    myBoxes[index4].style.background = `none`;
+    myBoxes[index4].style.background = `#d1d0ce`;
   }
   if (!myGameboard[index5] && index5 < 100) {
-    myBoxes[index5].style.background = `none`;
+    myBoxes[index5].style.background = `#d1d0ce`;
   }
 }
 
@@ -749,11 +749,11 @@ function pcShipPlacement() {
 pcShipPlacement();
 
 function green(ship) {
-  ship.style.border = `3px solid #006A4E`;
-  ship.style.background = `#50C878`;
+  ship.style.border = `4px solid #50C878`;
+  ship.style.background = `#006A4E`;
 }
 function red(ship) {
-  ship.style.border = `3px solid #F62217`;
+  ship.style.border = `4px solid #F62217`;
   ship.style.background = `#F75D59`;
 }
 
@@ -805,7 +805,7 @@ pcBoxes.forEach(function (element, index) {
 });
 
 function shipSunkBackground(boxes, gameboard, index, ship, shipClass) {
-  boxes[index].textContent = `X`;
+  // boxes[index].textContent = `X`;
   boxes[index].style.background = `#F62217`;
   gameboard[index] = 1;
   ship.length--;
