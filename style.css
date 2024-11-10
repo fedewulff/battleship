@@ -1,19 +1,21 @@
 body {
-  padding-top: 1.5rem;
+  /* padding-top: 1.5rem; */
   background: #454545;
+  height: 100svh;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .gamesides {
   margin: auto;
-  width: fit-content;
+
   display: flex;
-  gap: 25rem;
+  justify-content: space-around;
 }
 
 .side {
@@ -100,9 +102,9 @@ button:focus {
   /* transition: 0.2s; */
 }
 
-.box,
-.ship,
-.button {
+.myship,
+.button,
+.mygameboard {
   cursor: pointer;
 }
 
@@ -139,4 +141,59 @@ button:focus {
 }
 .bottom {
   border-bottom: none;
+}
+
+.middlecontainer {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+  width: 25%;
+  /* padding: 0.5rem; */
+  /* border-radius: 32px; */
+  background: #454545;
+  box-shadow: 5px 5px 10px #5c5c5c, -5px -5px 10px #5c5c5c;
+  height: 100svh;
+}
+
+.leftside,
+.rightside,
+.middlecontainer {
+  padding: 1rem;
+}
+.firstparagraph,
+.secondparagraph {
+  text-align: center;
+  font-size: 2.5rem;
+
+  color: rgb(235, 235, 235);
+}
+
+.battleshiptitle {
+  font-size: 4rem;
+  width: fit-content;
+  font-weight: 900;
+  margin-bottom: 3rem;
+  letter-spacing: 0.25rem;
+}
+
+.youwin,
+.youlose {
+  text-align: center;
+  max-width: 100%;
+
+  font-size: 3.5rem;
+  font-weight: 900;
+}
+.youwin {
+  color: green;
+}
+.youlose {
+  color: red;
+}
+
+.playagain {
+  font-size: 3rem;
+  padding: 1rem;
+  border-radius: 1rem;
 }
